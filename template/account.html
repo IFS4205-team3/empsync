@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Account</title>
+</head>
+
+<body>
+    <script type="text/javascript">
+        document.write(session['user'])
+    </script>
+    <h1>Role: {{ role_name }}</h1>
+    <h2>User: {{ user }}</h2>
+    <form action="/home" method="get">
+        <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to Home</button>
+    </form>
+    <form action="" method="post">
+        <div class="container">
+       
+            <label for="uname"><b>Enter your current password:</b></label>
+            <input type="password" style="margin-bottom: 20px;" placeholder="Current Password" name="psw1" required><br>
+
+            <label for="uname"><b>Enter your new password:</b></label>
+            <input type="password" placeholder="New Password" name="psw2" required>
+
+            <label for="uname"><b>Re-enter your new password:</b></label>
+            <input type="password" placeholder="New Password" name="psw3" required><br>
+
+            <button type="submit" class="createnewbtn">Change Password</button>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                  <div class="container" role="alert">
+                      {{ message }}
+                  </div>
+              {% endfor%}
+            {% endif %}
+          {% endwith %}
+            
+        
+        </div>
+    </form>
+</body>
+
+</html>

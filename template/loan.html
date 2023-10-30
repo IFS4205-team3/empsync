@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+
+  <title>Loans</title>
+</head>
+<body>
+  <script type="text/javascript">
+    document.write(session['user'])
+  </script>
+
+<h1>Role: {{ role_name }}</h1>
+<h2>User: {{ user }}</h2>
+<form action="/home" method="get">
+    <button type="submit" class="button">Back to home</button>
+</form>
+    <form action="/approve" method="get">
+        <button type="submit" style="float:inline-end; margin-left: 5px;" class="createnewbtn">Approve Loan</button>
+    </form>
+    <form action="/apply" method="get">
+        <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Apply Loan</button>
+    </form>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead>
+          <tr>
+            <th>Amount</th>
+            <th>interest</th>
+            <th>tenure</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for loan in loans %}
+          <tr>
+            <td>{{loan.amt}}</td>
+            <td>{{loan.interest}}</td>
+            <td>{{loan.tenure}}</td>
+            <td>{{loan.status}}</td>
+          </tr>
+
+          {% endfor%}
+        </tbody>
+      </table>
+
+
+</body>
+</html>

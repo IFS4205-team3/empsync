@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/style.css">
+        <title>Home</title>
+    </head>
+    
+    <body>
+        
+        <form action="/logout" method="get">
+            <button type="submit" style="float:inline-end; margin-left: 5px;" class="createnewbtn">Logout</button>
+        </form>
+        <form action="/create" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Create New Employee</button>
+        </form>
+        
+        <form action="/edit" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Edit Employee</button>
+        </form>
+
+        <form action="/payroll" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Issue Pay</button>
+        </form>
+
+        <form action="/log" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Logs</button>
+        </form>
+
+        <form action="/account" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Account</button>
+        </form>
+
+        <form action="/invest_routes" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Investment</button>
+        </form>
+
+        <form action="/loan" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Loan</button>
+        </form>
+
+        <form action="/anon" method="get">
+            <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">K-Anonymize</button>
+        </form>
+
+        <h1>Role: {{ role_name }}</h1>
+        <h2>User: {{ user }}</h2>
+        <h3>Bank balance: ${{ bank_balance }}</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+              <div class="container" role="alert">
+                  {{ message }}
+              </div>
+          {% endfor%}
+        {% endif %}
+      {% endwith %}
+        
+            
+    </body>
+</html>

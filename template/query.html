@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/style.css">
+        <title>K-Anonymize Dataset</title>
+    </head>
+<body>
+    <h1>Query K-Anonymized Data</h1>
+    <form action="/anon_result" method="get">
+        <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to result</button>
+    </form>
+
+    <form action="" method="POST">
+        </br></br>
+        <label for="q_value"><b>Select Age:</b></label>
+        <select id="q_value" name="q_value" required>
+        <option value="16">16</option>
+        <option value="18">18</option>
+        <option value="20">20</option>
+        <option value="22">22</option>
+        <option value="24">24</option>
+        <option value="26">26</option>
+        <option value="28">28</option>
+        <option value="30">30</option>
+        <option value="32">32</option>
+        <option value="34">34</option>
+
+        </select><br><br>
+
+        <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Query</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/style.css">
+
+    <title>Query Result</title>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      document.write(session['user'])
+    </script>
+
+    <h1>K: {{ k_value }} | Age: {{ q_value }}</h1>
+    <form action="/home" method="get">
+        <button type="submit" class="button">Back to Home</button>
+    </form>
+    <form action="/anon_result/query" method="get">
+      <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Back to Data</button>
+  </form>
+  <h2>Query Ratio Against K</h2>
+      <img src="../../../static/query_ratio_output.jpg" alt="query_ratio_output.jpg">
+
+    <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead>
+          <tr>
+            <th>Age</th>
+            <th>Bank Balance</th>
+            <th>Total Loan</th>
+            <th>Total Investment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in q_results %}
+          <tr>
+              {% for item in row %}
+                <td>{{ item }}</td>
+              {% endfor %}
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+  </body>
+</html>

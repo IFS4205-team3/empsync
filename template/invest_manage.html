@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+
+  <title>Manage Investment</title>
+</head>
+<body>
+  <script type="text/javascript">
+    document.write(session['user'])
+  </script>
+
+<h1>Role: {{ role_name }}</h1>
+<h2>User: {{ user }}</h2>
+<form action="/home" method="get">
+    <button type="submit" class="button">Back to Home</button>
+</form>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+      <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead> <h3 style="text-align: center;">Investments Waiting For Approval</h3>
+          <tr>
+            <th>Investment ID</th>
+            <th>Employee ID</th>
+            <th>Stock ID</th>
+            <th>Quantity</th>
+            <th>Stock Price</th>
+            <th>Purchase Time</th>
+            <th>Approve Status</th>
+            <th>Management Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for investment in investments %}
+          <tr>
+            <td>{{investment.investment_id}}</td>
+            <td>{{investment.emp_id}}</td>
+            <td>{{investment.stock_id}}</td>
+            <td>{{investment.quantity}}</td>
+            <td>${{investment.stock_price}}</td>
+            <td>{{investment.purchase_time}}</td>
+            <td>{{investment.approve_status}}</td>
+            <td>
+              <input type='button' value='Approve' onclick='approve_investment({{investment.investment_id}})'>&nbsp;
+              <input type='button' value='Decline' onclick='decline_investment({{investment.investment_id}})'>&nbsp;</td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+
+   
+    <script>
+    function post(path, params, method='post') {
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function approve_investment(id) {
+        post("/update_investment", {investment_id: id, action: "approve"});
+    }
+    function decline_investment(id) {
+        post("/update_investment", {investment_id: id, action: "decline"});
+    }
+    </script>
+
+
+</body>
+</html>
