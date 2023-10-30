@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/style.css">
+        <title>K-Anonymize Dataset</title>
+    </head>
+<body>
+    <h1>Request K-Anonymized Data</h1>
+    <form action="/home" method="get">
+        <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to Home</button>
+    </form>
+
+    <form action="" method="POST">
+        </br></br>
+        <label for="k_value"><b>Select K-value:</b></label>
+        <select id="k_value" name="k_value" required>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+        <option value="10">10</option>
+        </select><br><br>
+
+        <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">K-Anonymize</button>
+    </form>
+
+    <form action="/analysis" method="get">
+        <button type="submit" style="float: right; margin-left: 5px;" class="createnewbtn">Get Analysis</button>
+    </form>
+
+</body>
+</html>

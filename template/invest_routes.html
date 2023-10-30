@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/style.css">
+        <title>Home</title>
+    </head>
+    
+    <body>
+        <form action="/home" method="get">
+            <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to Home</button>
+        </form>
+        
+        <form action="/invest" method="get">
+            <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Employee Investment</button>
+        </form>
+        
+        <form action="/invest_manage" method="get">
+            <button type="submit" style="float:inline-end; margin-left: 5px;" class="createnewbtn">Manage Investments</button>
+        </form>
+ 
+
+        <h1>Role: {{ role_name }}</h1>
+        <h2>User: {{ user }}</h2>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+              <div class="container" role="alert">
+                  {{ message }}
+              </div>
+          {% endfor%}
+        {% endif %}
+      {% endwith %}
+        
+            
+    </body>
+</html>

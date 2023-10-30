@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/style.css">
+        <title>Apply</title>
+    </head>
+<body>
+
+    <form action="/loan" method="get">
+        <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to loan</button>
+    </form>
+    <h1>Loan Application Form</h1>
+    <p>Interest Rate: 2% per month</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+              <div class="container" role="alert">
+                  {{ message }}
+              </div>
+          {% endfor%}
+        {% endif %}
+      {% endwith %}
+    
+    <form action="" method="POST">
+
+        <label for="loan_amount">Loan Amount:</label>
+        <input type="number" id="loan_amount" name="loan_amount" required><br><br>
+
+        <label for="loan_tenure">Loan tenure (months):</label>
+        <input type="number" id="loan_tenure" name="loan_tenure" required><br><br>
+
+        <input type="submit" value="Apply for Loan">
+    </form>
+
+</body>
+</html>

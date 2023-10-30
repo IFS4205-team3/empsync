@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+
+  <title>Investment Dashboard</title>
+</head>
+<body>
+  <script type="text/javascript">
+    document.write(session['user'])
+  </script>
+
+<h1>Role: {{ role_name }}</h1>
+<h2>User: {{ user }}</h2>
+<form action="/home" method="get">
+    <button type="submit" class="button">Back to Home</button>
+</form>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead> <h3 style="text-align: center;">Stocks</h3>
+          <tr>
+            <th>ID</th>
+            <th>Stock Name</th>
+            <th>Stock Price</th>
+            <th>Actions</th>
+            <th>Current Quantity</th>
+            <th>Total Value ($)</th>
+            <th>Quantity Waiting For Approval</th>
+            <th>Total Value ($) Waiting For Approval</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stock in stocks %}
+          <tr>
+            <td>{{stock.stock_id}}</td>
+            <td>{{stock.stock_name}}</td>
+            <td id="stock_curr_price_{{stock.stock_id}}">${{stock.curr_price}}</td>
+            <td>
+              <input id='purchase_stock_quantity_{{stock.stock_id}}' type='number' value='0'/> 
+              <input type='button' value='Purchase Stock' onclick='purchase_stock({{stock.stock_id}})'>&nbsp;
+              <input type='button' value='Sell Stock' onclick='sell_stock({{stock.stock_id}})'>
+            </td>
+            <td id="user_quantity_{{stock.stock_id}}">0</td>
+            <td id="user_total_value_{{stock.stock_id}}">$0</td>
+
+            <td id="user_quantity_waiting_{{stock.stock_id}}">0</td>
+            <td id="user_total_value_waiting_{{stock.stock_id}}">$0</td>
+          </tr>
+
+          {% endfor%}
+          <!--
+          <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>abc@gmail.com</td>
+            <td>$4000</td>
+            <td><input type='button' value='issue pay' onclick='issue_pay(1)'></td>
+          </tr>
+        -->
+        </tbody>
+      </table>
+
+      <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead> <h3 style="text-align: center;">Investment History</h3>
+          <tr>
+            <th>Investment ID</th>
+            <th>Stock ID</th>
+            <th>Quantity</th>
+            <th>Stock Price</th>
+            <th>Purchase Time</th>
+            <th>Approve Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for investment in current_user_investments %}
+          <tr>
+            <td>{{investment.investment_id}}</td>
+            <td>{{investment.stock_id}}</td>
+            <td>{{investment.quantity}}</td>
+            <td>${{investment.stock_price}}</td>
+            <td>{{investment.purchase_time}}</td>
+            <td>{{investment.approve_status}}</td>
+          </tr>
+            <script>
+              // add to quantity
+              var approval_status = '{{investment.approve_status}}';
+              var elm_curr_stock_price = document.getElementById("stock_curr_price_{{investment.stock_id}}")
+
+              var e = document.getElementById("user_quantity_{{investment.stock_id}}");
+              if( e && approval_status == 'Approved' ) {
+                var current_quantity = parseInt(e.innerText);
+                var new_quantity = current_quantity + {{investment.quantity}};
+                e.innerText = new_quantity;
+
+                var curr_price = parseFloat(elm_curr_stock_price.innerText.replace("$",""));
+                var new_total_value = new_quantity * curr_price;
+                document.getElementById("user_total_value_{{investment.stock_id}}").innerText = "$" + new_total_value;
+              }
+
+              var e = document.getElementById("user_quantity_waiting_{{investment.stock_id}}");
+              if( approval_status == 'Waiting' ) {
+                var current_quantity = parseInt(e.innerText);
+                var new_quantity = current_quantity + {{investment.quantity}};
+                e.innerText = new_quantity;
+
+                var curr_price = parseFloat(elm_curr_stock_price.innerText.replace("$",""));
+                var new_total_value = new_quantity * curr_price;
+                document.getElementById("user_total_value_waiting_{{investment.stock_id}}").innerText = "$" + new_total_value;
+              }
+            </script>
+          {% endfor%}
+          <!--
+          <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>abc@gmail.com</td>
+            <td>$4000</td>
+            <td><input type='button' value='issue pay' onclick='issue_pay(1)'></td>
+          </tr>
+        -->
+        </tbody>
+      </table>
+
+   
+    <script>
+    function post(path, params, method='post') {
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function purchase_stock(id) {
+        var q = document.getElementById("purchase_stock_quantity_" + id);
+        var quantity = q.value;
+        post("/purchase_stock", {stock_id: id, quantity: quantity});
+    }
+    function sell_stock(id) {
+        var q = document.getElementById("purchase_stock_quantity_" + id);
+        var quantity = q.value;
+        post("/sell_stock", {stock_id: id, quantity: quantity});
+    }
+    </script>
+
+
+</body>
+</html>

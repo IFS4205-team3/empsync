@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+
+  <title>Issue Pay</title>
+</head>
+<body>
+  <script type="text/javascript">
+    document.write(session['user'])
+  </script>
+
+<h1>Role: {{ role_name }}</h1>
+<h2>User: {{ user }}</h2>
+<form action="/home" method="get">
+    <button type="submit" class="button">Back to Home</button>
+</form>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Monthly Salary</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{user.emp_id}}</td>
+            <td>{{user.first_name}} {{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.salary}}</td>
+            <td><input type='button' value='issue pay' onclick='issue_pay({{user.emp_id}})'></td>
+          </tr>
+
+          {% endfor%}
+          <!--
+          <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>abc@gmail.com</td>
+            <td>$4000</td>
+            <td><input type='button' value='issue pay' onclick='issue_pay(1)'></td>
+          </tr>
+        -->
+        </tbody>
+      </table>
+   
+    <script>
+    function post(path, params, method='post') {
+        const form = document.createElement('form');
+        form.method = method;
+        form.action = path;
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+    function issue_pay(id) {
+        post("/issue_pay", {id: id});
+    }
+    </script>
+
+
+</body>
+</html>

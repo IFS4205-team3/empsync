@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+
+    <title>Logs</title>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      document.write(session['user'])
+    </script>
+
+    <h1>Role: {{ role_name }}</h1>
+    <h2>User: {{ user }}</h2>
+    <form action="/home" method="get">
+        <button type="submit" class="button">Back to Home</button>
+    </form>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead>
+          <tr>
+            <th>Log ID</th>
+            <th>Emp ID</th>
+            <th>Operation</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+          <tr>
+            <td>{{log.log_id}}</td>
+            <td>{{log.emp_id}}</td>
+            <td>{{log.exec_operation}}</td>
+            <td>{{log.log_timestamp}}</td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+  </body>
+</html>

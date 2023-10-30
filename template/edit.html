@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+
+    <title>Edit Employee</title>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      document.write(session['user'])
+    </script>
+
+    <h1>Role: {{ role_name }}</h1>
+    <h2>User: {{ user }}</h2>
+    <form action="/home" method="get">
+      <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to Home</button>
+    </form>
+    <form action="" method="post">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            <div class="container" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <h2>Edit Employee Information</h2>
+  
+      <label for="email"><b>Employee email address</b></label>
+      <input type="text" placeholder="name@example.com" name="email" required>
+
+      </br></br>
+      <label for="first_name"><b>Update first name (Optional)</b></label>
+      <input type="text" name="first_name">
+
+      </br></br>
+      <label for="last_name"><b>Update last name (Optional)</b></label>
+      <input type="text" name="last_name">
+      
+      </br></br>
+      <label for="dob"><b>Update date of birth (Optional)</b></label>
+      <input type="date" name="dob">
+
+      </br></br>
+      <label for="phone_number"><b>Update phone number (Optional)</b></label>
+      <input type="text" name="phone_number" placeholder="91234567">
+
+      </br></br>
+      <label for="role_id"><b>Role ID:</b></label>
+      <select id="role_id" name="role_id" required>
+      <option value="NA">NA</option>
+      <option value="1">HR Executive</option>
+      <option value="2">Bank Teller</option>
+      <option value="3">Admin</option>
+      <option value="4">Loan Officer</option>
+      <option value="4">Investment Officer</option>
+      </select><br><br>
+
+      </br></br>
+      <label for="salary"><b>Update salary (Optional)</b></label>
+      <input type="text" name="salary">
+
+      </br></br>
+      <label for="bank_account"><b>Update bank account (Optional)</b></label>
+      <input type="text" name="bank_account">
+
+      </br>
+      <button type="submit" class="createnewbtn">Update particulars</button>
+    </form>
+  </body>
+</html>

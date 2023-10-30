@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+
+  <title>Approve</title>
+</head>
+<body>
+  <script type="text/javascript">
+    document.write(session['user'])
+  </script>
+
+<h1>Role: {{ role_name }}</h1>
+<h2>User: {{ user }}</h2>
+<form action="/loan" method="get">
+    <button type="submit" class="button">Back to loan</button>
+</form>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor%}
+        {% endif %}
+        {% endwith %}
+    </div>
+    <table style="background-color:#ffffff;margin-left:auto;margin-right:auto;">
+        <thead>
+          <tr>
+            <th>Loan ID</th>
+            <th>employee</th>
+            <th>Amount</th>
+            <th>interest</th>
+            <th>tenure</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for loan in loans %}
+          <tr>
+            <td>{{loan.loan_id}}</td>
+            <td>{{loan.emp_id}}</td>
+            <td>{{loan.amt}}</td>
+            <td>{{loan.interest}}</td>
+            <td>{{loan.tenure}}</td>
+            {% if loan.status == "pending" %}
+        <td><input type='button' value='Approve' onclick='approve({{ loan.loan_id }})'></td>
+      {% else %}
+        <td>{{loan.status}}</td>
+      {% endif %}
+          </tr>
+
+          {% endfor%}
+        </tbody>
+      </table>
+
+      <script>
+        function post(path, params, method='post') {
+            const form = document.createElement('form');
+            form.method = method;
+            form.action = path;
+    
+            for (const key in params) {
+                if (params.hasOwnProperty(key)) {
+                    const hiddenField = document.createElement('input');
+                    hiddenField.type = 'hidden';
+                    hiddenField.name = key;
+                    hiddenField.value = params[key];
+    
+                    form.appendChild(hiddenField);
+                }
+            }
+            document.body.appendChild(form);
+            form.submit();
+        }
+        function approve(id) {
+            post("/approve_loan", {id: id});
+        }
+        </script>
+</body>
+</html>

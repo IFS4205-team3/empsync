@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Reset Password</title>
+</head>
+
+<body>
+    <form action="/" method="get">
+        <button type="submit" style="float: right; margin-left: 10px" class="createnewbtn">Back to Login</button>
+    </form>
+    <form action="" method="post">
+        <div class="container">
+            <label for="uname"><b>Enter your Email</b></label>
+            <input type="email" placeholder="Email" name="uname" required>
+            <button type="submit" class="createnewbtn">Reset</button>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                  <div class="container" role="alert">
+                      {{ message }}
+                  </div>
+              {% endfor%}
+            {% endif %}
+          {% endwith %}
+            
+        
+        </div>
+    </form>
+</body>
+
+</html>
