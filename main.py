@@ -661,7 +661,16 @@ def sell_stock():
             flash("Quantity must be > 0", "danger")
             return redirect(url_for('invest'))
         # check to see if the user has sufficient quantity of the stock to sell
-        emp_id =2
+        curr_user = a_session.execute(text("""SELECT emp_id, email,
+                                    pgp_sym_decrypt(bank_balance,:AES_key)
+                                    as bank_balance,
+                                    pgp_sym_decrypt(total_invest,:AES_key)
+                                    as total_invest FROM employee
+                                    WHERE pgp_sym_decrypt(email,:AES_key)
+                                    = :email"""),
+                                    {"email":session["user"],
+                                    "AES_key":AES_KEY}).fetchone() 
+        emp_id = curr_user.emp_id
         # when calculating quantity, take into account
         # Buy(Approved) and Sell(Waiting/Approved) ones - ignore Buy(Waiting)
         # and Declined (because the transaction would have been reversed already)
@@ -707,15 +716,7 @@ def sell_stock():
             {"AES_key":AES_KEY, "stock_id":e_stock_id}).fetchone()
         print("user is selling the following stock: ")
         print(stock)
-        curr_user = a_session.execute(text("""SELECT emp_id, email,
-                                           pgp_sym_decrypt(bank_balance,:AES_key)
-                                           as bank_balance,
-                                           pgp_sym_decrypt(total_invest,:AES_key)
-                                           as total_invest FROM employee
-                                           WHERE pgp_sym_decrypt(email,:AES_key)
-                                           = :email"""),
-                                           {"email":session["user"],
-                                           "AES_key":AES_KEY}).fetchone()       
+        
         curr_user_bank_balance = int(curr_user.bank_balance)
         curr_user_total_invest = int(curr_user.total_invest)
         print(curr_user)
